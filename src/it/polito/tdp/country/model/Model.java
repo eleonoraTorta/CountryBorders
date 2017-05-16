@@ -170,6 +170,7 @@ public class Model {
 		
 	
 	
+	
 	// esplora l'albero (cioe la mappa alberoVisita) a partire dal country destinazione e risale fino allo stato di partenza.
 	// Abbiamo deciso di esplorare l'albero analizzando ogni volta quale fosse il nodo da cui e` nato il nodo  in considerazione.
 	//Infatti partendo da un nodo B viene generata una lista di nodi che seguono il nodo stesso B, ma solo un nodo A lo ha generato!
