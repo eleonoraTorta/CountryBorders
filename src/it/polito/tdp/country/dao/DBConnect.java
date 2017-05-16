@@ -8,9 +8,10 @@ import javax.sql.DataSource;
 
 import com.mchange.v2.c3p0.DataSources;
 
+
 public class DBConnect {
 
-	private static String jdbcURL = "jdbc:mysql://localhost/countries?user=root&password=root";
+	private static String jdbcURL = "jdbc:mysql://localhost/countries?user=root";
 	private static DataSource ds;   // variabile statica perche ce ne e` una sola
 
 	public static Connection getConnection() {

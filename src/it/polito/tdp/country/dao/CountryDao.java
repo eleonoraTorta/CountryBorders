@@ -113,8 +113,8 @@ public class CountryDao {
 	
 	//per versione 3
 	public List<CountryPair> listCoppieCountryAdiacenti(){
-		final String sql = "SELECT c1.CCcode as CCode1, c1.StateAbb as StateAbb1, c1.StateNme as StateNme1, "+
-				"c2.CCcode as CCode2, c12.StateAbb as StateAbb2, c2.StateNme as StateNme2 "+
+		final String sql = "SELECT c1.CCode as CCode1, c1.StateAbb as StateAbb1, c1.StateNme as StateNme1, "+
+				"c2.CCode as CCode2, c2.StateAbb as StateAbb2, c2.StateNme as StateNme2 "+
 				"FROM contiguity, country c1, country c2 "+
 				"WHERE contiguity.state1no = c1.CCode "+   //join
 				"AND contiguity.state2no = c2.CCode "+     //join

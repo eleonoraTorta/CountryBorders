@@ -22,9 +22,13 @@ public class Model {
 	private CountryDao dao;
 	private List<Country> countries;
 	private Map<Country, Country> alberoVisita;
+	private CountryIdMap countryIdMap;				//ID MAP
+//	private CountryDaoIdMap dao_id;
 	
 	public Model(){
 		dao = new CountryDao();
+		this.countryIdMap = new CountryIdMap();		//ID MAP
+	//  dao_id = new CountryDaoIdMap();
 	}
 	
 	public List<Country> getCountries(){
@@ -33,6 +37,7 @@ public class Model {
 		
 		if(this.countries==null){
 			this.countries = dao.listCountry();
+	//		this.countries = dao_id.listCountry(countryIdMap);    ID MAP
 		}
 		return this.countries;
 	}
@@ -57,7 +62,7 @@ public class Model {
 		//una mappa vuota che passo nel contruttore del lister (oltre al grafo) che a sua volta la popolera` automaticamente.
 		//se avessi creato la mappa nel listener "si sarebbe persa"/ non sarebbe stata recuperabile perche il listener lavora di nascosto!
 		
-		Map <Country, Country> albero = new HashMap< Country,Country>();
+		Map <Country, Country> albero = new HashMap();
 		albero.put(partenza, null); //il valore di partenza deve esserci gia
 		
 		bfi.addTraversalListener(new CountryTraversalListener(g, albero));
@@ -84,7 +89,7 @@ public class Model {
 		this.graph = new SimpleGraph<>(DefaultEdge.class) ;
 		
 		//crea i vertici del grafo
-		Graphs.addAllVertices(graph, this.getCountries());  //non passo this.countries perche non so se e` gia stata chiamata!
+		Graphs.addAllVertices(graph, this.getCountries());  //non passo this.countries perche non so se e` gia stata chiamata!		
 		
 		//crea gli archi del grafo -- VERSIONE 1
 		for(Country c1 : graph.vertexSet()){
@@ -118,6 +123,7 @@ public class Model {
 		//crea gli archi del grafo -- VERSIONE 2
 		for(Country c: graph.vertexSet()){						//query eseguita N volte
 			List <Country> adiacenti = dao.listAdiacenti(c);   // la query viene effettuata (N * grado medio del grafo) volte
+	//		List <Country> adiacenti = dao_id.listAdiacenti(c,countryIdMap); 		ID MAP
 			for(Country c2: adiacenti){
 				graph.addEdge(c,c2);
 			}
@@ -143,6 +149,7 @@ public class Model {
 		
 			// crea gli archi del grafo -- versione 3
 			for(CountryPair cp : dao.listCoppieCountryAdiacenti()) {
+		//	for(CountryPair cp : dao_id.listCoppieCountryAdiacenti(countryIdMap)) {     ID MAP
 				graph.addEdge(cp.getC1(), cp.getC2()) ;
 			}
 		}
@@ -153,9 +160,9 @@ public class Model {
 		}
 		
 	/*	
-		//Per fare una visita (= dato un vertice se voglio trovare tutti i vertici raggiungibili da quello)
-		BreadthFirstIterator <Country, DefaultEdge> bfv = new BreadthFirstIterator <> (graph, c1); // l'esplorazione parte da c1
-		while(bfv.hasNext()){
+		//Per fare una VISITA (= dato un vertice se voglio trovare tutti i vertici raggiungibili da quello)
+		BreadthFirstIterator <Country, DefaultEdge> bfi = new BreadthFirstIterator <> (graph, c1); // l'esplorazione parte da c1
+		while(bfi.hasNext()){
 			//System.out.println(bfv.next());
 			visited.add(bfv.next());   // il metodo .next() restituisce un elemento di tipo vertice (qui, Country)
 		}
